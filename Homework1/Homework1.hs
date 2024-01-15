@@ -26,3 +26,10 @@ validate x | sumDigits(doubleEveryOther(toDigits x)) `mod` 10 == 0 = True
            | otherwise = False
 
 --Exercise5--
+type Peg = String
+type Move = (Peg, Peg)
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoi n a c b
+  | n <= 0    = []
+  | otherwise = hanoi (n - 1) a b c ++
+      ((a, c) : hanoi (n - 1) b c a)

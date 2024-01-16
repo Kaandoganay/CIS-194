@@ -2,7 +2,7 @@
 
 module Log where
 
-import Control.Applicative
+import Control.Applicative () -- VSCode Hint
 
 data MessageType = Info
                  | Warning

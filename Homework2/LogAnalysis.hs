@@ -33,7 +33,7 @@ inOrder (Node left msg right ) = inOrder left ++ [msg] ++ inOrder right
 
 --Exercise5--
 message :: LogMessage -> String
-message (LogMessage _ _ m) = m
+message (LogMessage _ _ msg) = msg
 message (Unknown x) = x
 
 severe :: Int -> LogMessage -> Bool
@@ -42,4 +42,7 @@ severe _ _ = False
 
 
 whatWentWrong :: [LogMessage] -> [String]
-whatWentWrong = map message. filter (severe 50) . inOrder . build
+whatWentWrong = map message . inOrder . build. filter (severe 50)
+
+test :: IO [String]
+test = testWhatWentWrong parse whatWentWrong "sample.log"

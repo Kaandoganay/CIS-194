@@ -40,3 +40,5 @@ balance x (Node h left r right)
         
 foldTree :: [a] -> Tree a
 foldTree = foldr balance Leaf
+
+--Exercise3--

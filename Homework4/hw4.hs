@@ -44,3 +44,9 @@ foldTree = foldr balance Leaf
 --Exercise3--
 xor :: [Bool] -> Bool
 xor = foldr (/=) False
+
+map' :: (a -> b) -> [a] -> [b]
+map' f = foldr ((:) . f) []
+
+--Exercise4--
+

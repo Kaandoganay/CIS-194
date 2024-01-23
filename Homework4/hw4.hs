@@ -49,4 +49,6 @@ map' :: (a -> b) -> [a] -> [b]
 map' f = foldr ((:) . f) []
 
 --Exercise4--
+cartProd :: [a] -> [b] -> [(a, b)]
+cartProd xs ys = [(x,y) | x <- xs, y <- ys]
 

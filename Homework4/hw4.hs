@@ -23,9 +23,20 @@ data Tree a = Leaf
   deriving (Show, Eq)
 
 
+
 height :: Tree a -> Integer
 height (Node x _ _ _) = x
 height Leaf       = 0
 
-
-
+balance :: a -> Tree a -> Tree a
+balance x Leaf = Node 0 Leaf x Leaf
+balance x (Node h left r right)
+  | h1 < h2   = Node h (balance x left) r right
+  | h1 > h2   = Node h left r (balance x right)
+  | otherwise = Node (h3 + 1) (balance x left) r right
+  where h1 = height left
+        h2 = height right
+        h3 = height (balance x left)
+        
+foldTree :: [a] -> Tree a
+foldTree = foldr balance Leaf

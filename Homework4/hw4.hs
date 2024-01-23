@@ -15,3 +15,10 @@ fun1'= product . map (\x -> x-2) . filter even
 
 fun2' :: Integer -> Integer
 fun2'= sum . takeWhile (/=1) . iterate (\x -> if even x then x `div` 2 else 3*x+1)
+
+--Exercise2--
+
+data Tree a = Leaf
+            | Node Integer (Tree a) a (Tree a)
+  deriving (Show, Eq)
+

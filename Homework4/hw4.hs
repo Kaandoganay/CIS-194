@@ -42,3 +42,5 @@ foldTree :: [a] -> Tree a
 foldTree = foldr balance Leaf
 
 --Exercise3--
+xor :: [Bool] -> Bool
+xor = foldr (/=) False

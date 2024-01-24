@@ -1,3 +1,4 @@
+import Data.List((\\))
 --Exercise1--
 --fun1 :: [Integer] -> Integer
 --fun1 [] = 1
@@ -49,6 +50,6 @@ map' :: (a -> b) -> [a] -> [b]
 map' f = foldr ((:) . f) []
 
 --Exercise4--
-cartProd :: [a] -> [b] -> [(a, b)]
-cartProd xs ys = [(x,y) | x <- xs, y <- ys]
-
+sieveSundaram :: Integer -> [Integer]
+sieveSundaram x = map (\n -> 2*n+1) $ [1..x] \\ gereksiz
+ where gereksiz = [i + j + 2*i*j | i <-[1..x], j<-[1..x],  i + j + 2*i*j <= x]

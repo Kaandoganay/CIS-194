@@ -19,6 +19,3 @@ data Stream a = Cons a (Stream a)
 
 streamToList :: Stream a -> [a]
 streamToList (Cons x y) = x : streamToList y
-
-instance Show a => Show (Stream a) where
-  show = show . take 20 . streamToList

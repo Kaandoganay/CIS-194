@@ -1,3 +1,4 @@
+{-# LANGUAGE TypeSynonymInstances #-}
 module Calc where
 
 import ExprT
@@ -54,6 +55,21 @@ instance Expr Mod7 where
     add (Mod7 x) (Mod7 y) = Mod7 $ (x+y) `mod` 7
     mul (Mod7 x) (Mod7 y) = Mod7 $ (x*y) `mod` 7
     lit   x               = Mod7 $ x `mod` 7
+
+--Exercise5--
+instance Expr Program where
+    lit a   = [StackVM.PushI a]
+    add a b = a ++ b ++ [StackVM.Add]
+    mul a b = a ++ b ++ [StackVM.Mul]
+
+
+compile :: String -> Maybe Program
+compile = parseExp lit add mul
+
+
+
+
+
 
 
 

@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use newtype instead of data" #-}
 module Fibonacci where
 --exercise1--
 fib :: Integer -> Integer
@@ -13,3 +15,10 @@ fibs2 :: [Integer]
 fibs2 = 0 : 1 : zipWith (+) fibs2 (tail fibs2)
 
 --exercise3--
+data Stream a = Cons a (Stream a)
+
+streamToList :: Stream a -> [a]
+streamToList (Cons x y) = x : streamToList y
+
+instance Show a => Show (Stream a) where
+  show = show . take 20 . streamToList

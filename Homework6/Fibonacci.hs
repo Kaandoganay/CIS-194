@@ -19,3 +19,14 @@ data Stream a = Cons a (Stream a)
 
 streamToList :: Stream a -> [a]
 streamToList (Cons x y) = x : streamToList y
+
+--exercise4--
+
+streamRepeat :: a -> Stream a
+streamRepeat a = Cons a (streamRepeat a)
+
+streamMap :: (a -> b) -> Stream a -> Stream b
+streamMap f (Cons x xs) = Cons (f x) (streamMap f xs) 
+
+streamFromSeed :: (a -> a) -> a -> Stream a
+streamFromSeed f x = Cons x (streamFromSeed f (f x))

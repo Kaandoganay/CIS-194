@@ -20,6 +20,9 @@ data Stream a = Cons a (Stream a)
 streamToList :: Stream a -> [a]
 streamToList (Cons x y) = x : streamToList y
 
+instance Show a => Show (Stream a) where
+    show = show .  streamToList
+
 --exercise4--
 
 streamRepeat :: a -> Stream a
@@ -30,9 +33,6 @@ streamMap f (Cons x xs) = Cons (f x) (streamMap f xs)
 
 streamFromSeed :: (a -> a) -> a -> Stream a
 streamFromSeed f x = Cons x (streamFromSeed f (f x))
-
-instance Show a => Show (Stream a) where
-    show = show . take 20 . streamToList
 
 --exercise5--
 nats :: Stream Integer

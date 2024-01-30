@@ -3,6 +3,8 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 {-# OPTIONS_GHC -Wno-type-defaults #-}
+{-# OPTIONS_GHC -Wno-missing-methods #-}
+{-# OPTIONS_GHC -fno-warn-missing-methods #-}
 module Fibonacci where
 --exercise1--
 fib :: Integer -> Integer
@@ -50,3 +52,16 @@ ruler = streamMap f $ streamFromSeed (+1) 1
 --exercise6--
 x :: Stream Integer
 x = Cons 0 (Cons 1 (streamRepeat 0))
+
+instance Num (Stream Integer) where
+    fromInteger n                 = Cons n (streamRepeat 0)
+    negate (Cons x xs)            = Cons (-x) (negate xs)
+    (+) (Cons x xs) (Cons y ys)   = Cons (x+y) (xs +ys)
+    (*) (Cons x xs) s@(Cons y ys) = Cons (x*y) (streamMap (*x) ys + (xs*s))
+
+instance Fractional (Stream Integer) where
+    (/) (Cons x xs) (Cons y ys) = k
+        where k = Cons (x `div` y) (streamMap (`div` y) (xs - k * ys))
+
+fibs3 :: Stream Integer
+fibs3 = (/)  x  (1 - x - x * x)

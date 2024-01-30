@@ -1,10 +1,14 @@
 
+{-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use newtype instead of data" #-}
+{-# OPTIONS_GHC -Wno-unused-imports #-}
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
-{-# OPTIONS_GHC -Wno-type-defaults #-}
 {-# OPTIONS_GHC -Wno-missing-methods #-}
-{-# OPTIONS_GHC -fno-warn-missing-methods #-}
+{-# OPTIONS_GHC -Wno-type-defaults #-}
+
 module Fibonacci where
 --exercise1--
 fib :: Integer -> Integer
@@ -34,7 +38,7 @@ streamRepeat :: a -> Stream a
 streamRepeat a = Cons a (streamRepeat a)
 
 streamMap :: (a -> b) -> Stream a -> Stream b
-streamMap f (Cons x xs) = Cons (f x) (streamMap f xs) 
+streamMap f (Cons x xs) = Cons (f x) (streamMap f xs)
 
 streamFromSeed :: (a -> a) -> a -> Stream a
 streamFromSeed f x = Cons x (streamFromSeed f (f x))
@@ -65,3 +69,18 @@ instance Fractional (Stream Integer) where
 
 fibs3 :: Stream Integer
 fibs3 = (/)  x  (1 - x - x * x)
+
+--exercise7--
+
+data Matrix = Matrix ((Integer,Integer), (Integer,Integer)) deriving Show
+
+instance Num Matrix where
+        (*) (Matrix ((x,y), (z,t))) (Matrix ((a,b), (c,d))) = Matrix  ((x*a +y*c, x*b+ y*d), (z*a+t*c, z*b+t*d))
+
+pickX :: Matrix ->Integer
+pickX (Matrix ((x,_), (_, _))) = x
+
+fibs4 :: Integer -> Integer
+fibs4 0 = 0
+fibs4 1 = 1
+fibs4 n = pickX (Matrix ((1,1), (1,0))^(n-1))

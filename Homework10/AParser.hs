@@ -4,7 +4,7 @@
 
 module AParser where
 
-import           Control.Applicative
+import Control.Applicative ()
 
 import           Data.Char
 
@@ -57,3 +57,20 @@ posInt = Parser f
 ------------------------------------------------------------
 -- Your code goes below here
 ------------------------------------------------------------
+
+
+--Exercise1--
+
+first :: (a -> b) -> (a,c) -> (b,c)
+first f (a,c) = (f a,c)
+
+instance Functor Parser where
+  fmap f  Parser b = Parser (fmap (first f) . b)
+
+--Exercise2--
+instance Applicative Parser where
+  pure a = Parser  $ \b Just (a, b)
+  
+  p1 <*> p2 = Parser p
+    where p s      = runParser p1 s >>= g
+          g (f, r) = runParser (f <$> p2) r

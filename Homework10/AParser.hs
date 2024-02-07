@@ -7,7 +7,7 @@
 
 module AParser where
 
-import Control.Applicative ()
+import Control.Applicative
 
 import           Data.Char
 
@@ -89,3 +89,13 @@ abParser_ = const () <$> abParser
 
 intPair :: Parser [Integer]
 intPair = (\a _ b -> [a, b]) <$> posInt <*> char ' ' <*> posInt
+
+--Exercise4--
+instance Alternative Parser where
+  empty = Parser (const Nothing)
+  p1 <|> p2 = Parser f
+    where f s = runParser p1 s <|> runParser p2 s
+
+--Exercise5--
+intOrUppercase :: Parser ()
+intOrUppercase = const () <$> posInt <|> const () <$> satisfy isUpper

@@ -1,6 +1,9 @@
 {- CIS 194 HW 10
    due Monday, 1 April
 -}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use void" #-}
+{-# HLINT ignore "Use <$" #-}
 
 module AParser where
 
@@ -65,12 +68,24 @@ first :: (a -> b) -> (a,c) -> (b,c)
 first f (a,c) = (f a,c)
 
 instance Functor Parser where
-  fmap f  Parser b = Parser (fmap (first f) . b)
+  fmap f p = Parser $ fmap (first f) . runParser p
 
---Exercise2--
+  --exercise2--
 instance Applicative Parser where
-  pure a = Parser  $ \b Just (a, b)
-  
-  p1 <*> p2 = Parser p
-    where p s      = runParser p1 s >>= g
-          g (f, r) = runParser (f <$> p2) r
+    pure a = Parser (\s -> Just (a, s))
+
+    p1 <*> p2 = Parser f
+             where f str
+                      | Nothing <- res             = Nothing
+                      | Just (fRes, strRes) <- res = first fRes <$> runParser p2 strRes
+                         where res = runParser p1 str
+
+--Exercise3--
+abParser :: Parser (Char, Char)
+abParser  = (,) <$> char 'a' <*> char 'b'
+
+abParser_ :: Parser()
+abParser_ = const () <$> abParser 
+
+intPair :: Parser [Integer]
+intPair = (\a _ b -> [a, b]) <$> posInt <*> char ' ' <*> posInt

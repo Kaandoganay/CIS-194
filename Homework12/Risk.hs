@@ -3,6 +3,7 @@
 module Risk where
 
 import Control.Monad.Random
+import Data.List ( sortBy )
 
 ------------------------------------------------------------
 -- Die values
@@ -26,3 +27,19 @@ die = getRandom
 type Army = Int
 
 data Battlefield = Battlefield { attackers :: Army, defenders :: Army }
+
+maxAttackers :: Army -> Int
+maxAttackers n = min 3 (n-1)
+
+maxDefenders :: Army -> Int
+maxDefenders = min 2
+
+rollDice :: Int -> Rand StdGen [DieValue]
+rollDice n = replicateM n die
+
+sortRolls :: [DieValue] -> [DieValue]
+sortRolls = sortBy (flip compare)
+
+matchRolls :: [DieValue] -> [DieValue] -> [Ordering]
+matchRolls = zipWith compare
+
